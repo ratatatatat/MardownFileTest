@@ -165,7 +165,7 @@ Make sure the GPS is turned on, on your phone. Open up the DO app, press the but
 # Using the Project
 
 Using this project, you can use the Onion Cloud to control your remote Omega very easily.Using IFTTT, you can trigger commands either automatically or from your smartphone via the DO button App.
-As a reminder the device client on the Omega executes using ubus calls. Therefore, this tutorial can be used as a framework to do other things remotely Omega. Maybe control a door lock or light 
+As a reminder the device client on the Omega executes using ubus calls. Therefore, this tutorial can be used as a framework to do other things remotely on your Omega. Maybe control a door lock or light 
 switch from your phone. 
 
 ## Related Tutorials
