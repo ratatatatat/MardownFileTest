@@ -3,7 +3,7 @@
 ![IFTTT](http://marketingland.com/wp-content/ml-loads/2012/09/ifttt-logo.jpg)
 
 In this tutorial, we will show you how to do some very cool things using IFTTT, the Omega and the Onion Cloud. In particular, we will use the _DO_ App on Andriod by IFTTT to send the date 
-and GPS information to be printed remotely on your Omega + OLED Screen. We will also give you a taste of the Onion Cloud and its capabilities. Let's get into it.
+and GPS information from your phone to be printed remotely on your Omega + OLED Screen. We will also give you a taste of the Onion Cloud and its capabilities. Let's get into it.
 
 
 [[_TOC_]]
@@ -35,7 +35,10 @@ Useful Experience:
 
 ### What is IFTTT
 
-[IFTTT](https://en.wikipedia.org/wiki/IFTTT) stands for "if this, then that", which is a web service that allows users to create some methods, which are called "recipes", that can set up user's own conditional statement (e.g. if I receive a new email on my gmail account, then forward it to another account). The conditional statement could be as simple as if a button is pressed, or as complex as you want. There is a "do" app in APPstore or Google Play store, which makes users able to trigger a event by pressing a button. Ff you are interested in this project, I strongly recommend you to download it on your phone after you have viewed Theory && Introduction part. 
+[IFTTT](https://en.wikipedia.org/wiki/IFTTT) stands for "if this, then that", which is a web service that allows users to create custom tasks, which are called "recipes", that can set up 
+user's own conditional statement (e.g. if I receive a new email on my gmail account, then forward it to another account). The conditional statement could be as simple as if a button is 
+pressed, or as complex as you want. There is also "do" app in APPstore or Google Play store, ,which allows the recipe to be triggered by pressing a button on the app. We will be taking this
+ approach in the rest of the tutorial. In the next section, I will explain what will be going on behind the scenes in our tutorial. 
 
 ![IFTTT](http://marketingland.com/wp-content/ml-loads/2012/09/ifttt-logo.jpg)
 
@@ -43,14 +46,113 @@ Useful Experience:
 
 ### Theory && Introduction
 
-The theory of using IFTTT to control our Omega is, when one event is triggered, it sends a web request to Onion device server, which is interacting with device client (that is what we are going to install on Omega), and then it is going to trigger a ubus function, and the ubus function determines what you are going to do on the Omega. There are three ubus tutorials avaliable on Onion Wiki, click [here](https://wiki.onion.io/Tutorials/OpenWRT%20Tutorials/UBUS_Tutorial/Part1_Ubus_Intro) to create your own ubus function!
+The theory of using IFTTT to control our Omega is, when one event is triggered, a request is sent to the Onion Cloud via the Maker Channel. The Onion Cloud then sends a command
+to the device client, which is a program running on our local Omega. The device client then triggers a ubus function, and the ubus function determines what is going to happen on the Omega. 
+There are three ubus tutorials avaliable on Onion Wiki, click [here](https://wiki.onion.io/Tutorials/OpenWRT%20Tutorials/UBUS_Tutorial/Part1_Ubus_Intro) to create your own ubus function!
 
-The recipes are created through "channels", which are different web services, for example, Gmail. Unfortunately, we haven't created our own channel yet (but it will be up very soon), so we are using IFTTT through a DIY channel, "Maker". Maker channel allows users to make a web request, however, there is no header option. Unfortunately again, to run a program on Omega, we have to send a API format web request to device server, that means, we need to create a local server to translate the request to another with headers. That would be perfect if you can write your own server, if not, don't worry, I created a test server for you! However, you still need a public server to run this local server on.
+Include Image Here
+
+The recipes are created through "channels", which are different web services, for example, Gmail. Unfortunately, we haven't created our own channel yet (but it will be up very soon), 
+so we are using IFTTT through a DIY channel, "Maker". 
 
 [//]: # (The Steps)
 
-## Step 1: Start Up
+## Step 1: Setting Up The Omega With The Cloud
+
 
 ### Create Onion Account and Device-id
 
-Sorry... The Onion server account and device-id are not currently avaliable for users... Please wait for further updates.
+Firstly you will need to create an Onion Account on the Onion Website which can be found [here](https://cloud.onion.io/). If you are completely new to the onion cloud, follow this tutorial
+ to get your device setup. Once you have finished the tutorial, you should have your cloud connected Omega will have a device ID. Make note of it because we will use it later. Next we will need
+ to get the API Key.
+ 
+### Get Your API Key
+
+Click on the Key Manager App that you saw when you first logged into the Onion Cloud. Make Note of the key. 
+
+[//]: # (Step 2)
+
+## Step 2: Setting Up IFTTT
+
+### Make An Account With IFTTT.
+
+Go to the IFTTT website and make an account. In the next step we will be making the recipe, however te 
+
+### Download DO Button App and Setup Up the "Recipe"
+
+Download and open the DO Button App by IFTTT on your phone. Navigate to the My Recipes section and click the add button. I have included a series of screen shots to guide you through
+the steps on your phone. Once you have selected the Maker Channel, you will be prompted to connect to the maker channel. Once you have reached the final screen, choose a title for the recipe.
+I have made mine omega test. For the URL field, just put google.com for now and choose the POST for the Method. For Content type select "applications/JSON" Scroll to the bottom and click add. We will now continue to modify the recipe
+on the desktop.
+
+Include image here.
+
+[//]: # (Step 3)
+
+## Step 3: Completing the IFTTT Recipe. 
+
+In this step you will need to log back into the IFTTT website and open up the Onion Cloud. In this step you will modify the URL you entered in step 2 with one that is generated by the onion
+cloud and that points to your device and tells it to do something. Click on My Recipes, click on DO tab and then on the actual recipe whatever you named it, you will be able to modify the recipe. 
+
+### Get URL and Body Info From Cloud
+
+Login into the Onion Cloud. Then click on the "Device Explorer" App on the dashboard. Your Device should have a device ID and be connected to the cloud. 
+
+Image of Device table
+
+Click on the device and then the following tabs on the left i2c_exp>>oled-exp. You should reach the following screen.
+
+Image of Device Command
+
+In the command field enter:
+```
+set
+```
+
+In the option field enter:
+```
+i
+```
+
+In the params field enter:
+```
+{"write":""}
+```
+
+The section under the curl command is what you will use to fill in the URL and body fields in the IFTTT recipe. The link at the end will be the URL to the Onion API and the JSON text before
+it is the body.
+
+The URL will have the following form:
+```
+https://api.onion.io/v1/devices/<device -id>/i2c_exp/oled-exp?key=<API-key>
+```
+
+You will need to replace <device -id> and <API-key> with your device ID and API key which you took note of earlier. Enter this into the URL Field. 
+
+Next, simply copy the JSON text inside the single quotes as is into the body field. Now let's add some ingredients, ie date and GPS coordinates. To do this place the cursor in between the empty quotation marks
+following 
+```
+"write":
+```
+And click on the button beside the field. Select "OccuredAt" from the dropdown menu and click "Add Ingredient". Repeat the process selecting latitude and longtitude. You will also need
+to add a space between the last two curly closed brackets. Once you are done, your screen should look something like this and you can hit Update. 
+
+[//]: # (Step 4)
+
+## Step 4: Try It Out!
+
+Open up the DO app, press the button and watch the OLED Display. 
+
+Final Image
+
+[//]: # (Using the Project)
+
+# Using the Project
+
+Using this project, you can use the Onion Cloud to control your remote Omega very easily.Using IFTTT, you can trigger commands either automatically or from your smartphone via the DO button App.
+As a reminder the device client on the Omega executes using ubus calls. Therefore, this tutorial can be used as a framework to do other things remotely Omega. Maybe control a door lock or light 
+switch from your phone. 
+
+## Related Tutorials
+
+* [ubus tutorial](https://wiki.onion.io/Tutorials/OpenWRT%20Tutorials/UBUS_Tutorial/Part1_Ubus_Intro)
