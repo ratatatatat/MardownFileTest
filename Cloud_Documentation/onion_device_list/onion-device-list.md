@@ -1,4 +1,4 @@
-# **onion-device-list element**
+# **Onion-Device-List element**
 
 The onion-device-list provides a filterable list of available devices to the user via the cloud. Devices can either be displayed in table or dropdown format. 
 The selected device-id, device object( JSON with complete device info) and complete device array are available for usage in the parent element via element selectors. 
@@ -6,7 +6,7 @@ The flow chart below visually describes usage.
 
 ## FlowChart 
 
-
+![Imgur](http://i.imgur.com/iOyqarx.png)
 
 ## Usage 
 
@@ -17,6 +17,7 @@ For a non-filtered device-list in a table format, include the following line in 
 ```
 <onion-device-list></onion-device-list>
 ```
+![Imgur](http://i.imgur.com/Gv7ypo5.png)
 
 ### Device List Dropdown Format
 
@@ -25,9 +26,11 @@ For a non-filtered device-list in a dropdown format, include the following line 
 <onion-device-list drop-down="true"></onion-device-list>
 ```
 
+![Imgur](http://i.imgur.com/MtonByK.png)
+
 ### Adding Device List Filters
 
-Filters can be applied to both the dropdown and table device list formats, using the "online-only" and "can-manage" attributes. There are for 4 filter settings.
+Filters can be applied to both the dropdown and table device list formats, using the "online-only" and "can-manage" attributes. There are 4 filters.
 
  
 #### 1)No filter
